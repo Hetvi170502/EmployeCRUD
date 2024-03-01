@@ -1,0 +1,97 @@
+
+
+<div class="container  border border-dark col-md-4 mt-5 p-5">
+  <form [formGroup]="editData" (ngSubmit)="editEmploye()">
+
+    <div class="form-group mt-2 h6">
+      <label>Name</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fa fa-user m-1" aria-hidden="true"></i>
+          </span>
+        </div>
+      <input type="text" class="form-control" formControlName="employeName" placeholder="John">
+    </div>
+      <span style="color: red;" *ngIf="employeName && employeName.touched && employeName.invalid">
+        <div *ngIf="employeName.hasError('required')">Name is required</div>
+      </span>
+    </div>
+
+    <div class="form-group mt-3 h6">
+      <label>Gender</label>
+      <div class="row mt-2 m-2">
+        <div class="col-sm-3 form-check">
+          <input type="radio" class="form-check-input" id="radio1"  value="Male" formControlName="gender">
+          <label class="form-check-label" for="radio1">Male</label>
+        </div>
+        <div class="col-sm-3 form-check">
+          <input type="radio" class="form-check-input" id="radio2"  value="Female" formControlName="gender">
+          <label class="form-check-label" for="radio2">Female</label>
+        </div>
+          <span style="color: red;" *ngIf="gender && gender.touched && gender.invalid">
+          <div *ngIf="gender.hasError('required')">Select Gender</div></span>
+        </div>
+    </div>
+
+    <div class="form-group mt-3 h6">
+      <label>Designation</label>
+        <select required class="border border-dark col-md-6 m-3" name="designation"  formControlName="designationId">
+          <option value="" disabled selected>Select Designation</option>
+        <option *ngFor="let data of designation" [ngValue]="data.id">
+            {{data.designationName}}
+        </option>
+    </select>
+      <span style="color: red;" *ngIf="designationId && designationId.touched && designationId.invalid">
+        <div *ngIf="designationId.hasError('required')">Select Designation
+        </div>
+      </span>
+    </div>
+
+
+    <div class="form-group  mt-3 h6" formArrayName="employeHobbies">
+      <label>Hobbies</label>
+      <div *ngFor="let data of hobby ;let i = index" class="form-check">
+        <input  type="checkbox" [value]="data.id"  (change)="onCheckChange($event)"  [checked]="isSelected(data.id)"/>
+        <label class="form-check-label">{{data.hobbyName }} </label>
+      </div>
+    </div>
+
+    <div class="form-group mt-3 h6">
+      <label>Email</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fa fa-envelope m-1"></i></span>
+        </div>
+        <input type="email" class="form-control" formControlName="email" placeholder="example@user.com">
+      </div>
+      <span style="color: red;" *ngIf="email && email.touched && email.invalid">
+        <div *ngIf="email.hasError('required')">Email is required</div>
+        <div *ngIf="email.hasError('pattern')">Invalid email format</div>
+      </span>
+    </div>
+
+    <div class="form-group mt-3 h6">
+      <label>Phone</label>
+      <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fa fa-phone m-1"></i></span>
+      </div>
+    <input type="number" class="form-control" formControlName="phoneNumber" placeholder="1234567890">
+  </div>
+      <span style="color: red;" *ngIf="phoneNumber && phoneNumber.touched && phoneNumber.invalid">
+        <div *ngIf="phoneNumber.hasError('required')">Phone Number is required</div>
+        <div *ngIf="phoneNumber.hasError('pattern')">Invalid phone number format</div>
+      </span>
+    </div>
+
+   <div class="mt-5">
+     <button type="submit" class="btn btn-success" [disabled]="editData.invalid">Submit </button>
+    <button class="btn btn-danger m-2" (click)="back()" >Cancel</button>
+
+   </div>
+
+  </form>
+
+ </div>
+{{editData.value|json}}
